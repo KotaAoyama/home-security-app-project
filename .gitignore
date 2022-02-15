@@ -9,3 +9,6 @@ target/
 
 # Java
 config.properties
+
+# Github
+.github
