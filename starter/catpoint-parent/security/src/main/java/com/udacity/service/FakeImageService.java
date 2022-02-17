@@ -1,4 +1,4 @@
-package com.udacity.catpoint.service;
+package main.java.com.udacity.service;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;

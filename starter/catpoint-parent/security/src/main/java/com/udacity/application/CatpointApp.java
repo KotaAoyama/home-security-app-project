@@ -1,4 +1,4 @@
-package com.udacity.catpoint.application;
+package main.java.com.udacity.application;
 
 /**
  * This is the main class that launches the application.

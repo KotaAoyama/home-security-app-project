@@ -8,6 +8,7 @@
   <artifactId>catpoint-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
 
+  <packaging>pom</packaging>
   <name>catpoint-parent</name>
   <url>http://www.example.com</url>
 
