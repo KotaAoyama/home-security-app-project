@@ -1,9 +1,8 @@
-package com.udacity.catpoint;
+package org.example;
 
+import static org.junit.Assert.assertTrue;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.Test;
 
 /**
  * Unit test for simple App.
