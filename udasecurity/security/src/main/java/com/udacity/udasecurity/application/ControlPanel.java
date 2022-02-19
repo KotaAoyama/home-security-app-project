@@ -1,8 +1,8 @@
 package com.udacity.udasecurity.application;
 
-import com.udacity.catpoint.data.ArmingStatus;
-import com.udacity.catpoint.service.SecurityService;
-import com.udacity.catpoint.service.StyleService;
+import com.udacity.udasecurity.data.ArmingStatus;
+import com.udacity.udasecurity.service.SecurityService;
+import com.udacity.udasecurity.service.StyleService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
