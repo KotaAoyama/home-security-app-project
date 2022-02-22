@@ -1,4 +1,4 @@
-package com.udacity.udasecurity.service;
+package com.udacity.udasecurity.image.service;
 
 import java.awt.image.BufferedImage;
 

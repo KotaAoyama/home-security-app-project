@@ -1,4 +1,4 @@
-package com.udacity.udasecurity.data;
+package com.udacity.udasecurity.security.data;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;

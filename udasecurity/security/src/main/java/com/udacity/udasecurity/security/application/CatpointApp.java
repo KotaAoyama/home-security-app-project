@@ -1,4 +1,4 @@
-package com.udacity.udasecurity.application;
+package com.udacity.udasecurity.security.application;
 
 /**
  * This is the main class that launches the application.

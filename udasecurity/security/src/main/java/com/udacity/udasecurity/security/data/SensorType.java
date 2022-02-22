@@ -1,4 +1,4 @@
-package com.udacity.udasecurity.data;
+package com.udacity.udasecurity.security.data;
 
 /**
  * List of available sensor types. Not currently used by system, other than for display.

@@ -1,4 +1,4 @@
-package com.udacity.udasecurity.data;
+package com.udacity.udasecurity.security.data;
 
 import java.util.Set;
 

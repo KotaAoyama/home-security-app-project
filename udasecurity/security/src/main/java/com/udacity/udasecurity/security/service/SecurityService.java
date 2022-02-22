@@ -1,10 +1,11 @@
-package com.udacity.udasecurity.service;
+package com.udacity.udasecurity.security.service;
 
-import com.udacity.udasecurity.application.StatusListener;
-import com.udacity.udasecurity.data.AlarmStatus;
-import com.udacity.udasecurity.data.ArmingStatus;
-import com.udacity.udasecurity.data.SecurityRepository;
-import com.udacity.udasecurity.data.Sensor;
+import com.udacity.udasecurity.security.application.StatusListener;
+import com.udacity.udasecurity.security.data.AlarmStatus;
+import com.udacity.udasecurity.security.data.ArmingStatus;
+import com.udacity.udasecurity.security.data.SecurityRepository;
+import com.udacity.udasecurity.security.data.Sensor;
+import com.udacity.udasecurity.image.service.ImageService;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;

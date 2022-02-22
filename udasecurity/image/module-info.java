@@ -1,3 +1,3 @@
 module com.udacity.udasecurity.image {
-    exports com.udacity.udasecurity.service;
+    exports com.udacity.udasecurity.security.service;
 }

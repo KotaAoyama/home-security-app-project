@@ -1,35 +1,37 @@
-package com.udacity.udasecurity.service;
+package com.udacity.udasecurity.security.service;
 
-import com.sun.nio.sctp.SendFailedNotification;
-import com.udacity.udasecurity.data.*;
+import com.udacity.udasecurity.security.data.*;
+import com.udacity.udasecurity.image.service.ImageService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class SecurityServiceTest {
 
     private SecurityService securityService;
-    private SecurityRepository securityRepository;
     private Sensor sensor;
 
     @Mock
     private ImageService imageService;
 
+    @Mock
+    private PretendDatabaseSecurityRepositoryImpl securityRepository;
+
     @BeforeEach
     void init() {
-        securityRepository = new PretendDatabaseSecurityRepositoryImpl();
+
         securityService = new SecurityService(securityRepository, imageService);
     }
 
     @Test
-    public void getAlarmStatus_whenAlarmArmedAndSensorActivated_returnsPendingAlarmStatus() {
+    public void givenAlarmArmed_whenSensorActivated_getPendingAlarmStatus() {
+
         securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
         sensor = new Sensor("", SensorType.DOOR);
-        sensor.setActive(true);
         securityService.addSensor(sensor);
 
         Assertions.assertEquals(AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus());
