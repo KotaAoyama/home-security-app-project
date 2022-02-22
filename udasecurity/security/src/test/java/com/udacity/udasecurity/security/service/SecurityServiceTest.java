@@ -27,15 +27,15 @@ public class SecurityServiceTest {
         securityService = new SecurityService(securityRepository, imageService);
     }
 
-    @Test
-    public void givenAlarmArmed_whenSensorActivated_getPendingAlarmStatus() {
-
-        securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
-        sensor = new Sensor("", SensorType.DOOR);
-        securityService.addSensor(sensor);
-
-        Assertions.assertEquals(AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus());
-    }
+//    @Test
+//    public void givenAlarmArmed_whenSensorActivated_getPendingAlarmStatus() {
+//
+//        securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
+//        sensor = new Sensor("", SensorType.DOOR);
+//        securityService.addSensor(sensor);
+//
+//        Assertions.assertEquals(AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus());
+//    }
 
     @AfterEach
     public void cleanup() {
