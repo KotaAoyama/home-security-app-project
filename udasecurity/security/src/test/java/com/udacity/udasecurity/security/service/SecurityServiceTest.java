@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -33,31 +32,23 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void givenAlarmArmed_whenSensorActivated_getPendingAlarmStatus(Sensor sensor) {
+    public void changeSensorActivated_whenAlertArmed_alarmStatusPending(Sensor sensor, boolean active) {
         securityService.addSensor(sensor);
-        Mockito.when(securityRepository.isAnySensorActive()).thenReturn(true);
-        Mockito.when(securityRepository.getArmingStatus()).thenReturn(
-                ArmingStatus.ARMED_HOME, ArmingStatus.ARMED_AWAY);
+        Mockito.when(securityRepository.getArmingStatus())
+                .thenReturn(ArmingStatus.ARMED_HOME);
+        Mockito.when(securityRepository.getAlarmStatus())
+                .thenReturn(AlarmStatus.NO_ALARM);
 
-        Assertions.assertAll(
-                () -> Assertions.assertTrue(
-                        securityService.isAnySensorActive()
-                        && securityService.getArmingStatus() == ArmingStatus.ARMED_HOME
-                        && securityService.getAlarmStatus() == AlarmStatus.PENDING_ALARM),
-                () ->  Assertions.assertTrue(
-                        securityService.isAnySensorActive()
-                                && securityService.getArmingStatus() == ArmingStatus.ARMED_AWAY
-                                && securityService.getAlarmStatus() == AlarmStatus.PENDING_ALARM)
-        );
+        securityService.changeSensorActivationStatus(sensor, active);
+
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.PENDING_ALARM);
     }
 
     private static Stream<Arguments> differentSensorType() {
         return Stream.of(
-                Arguments.of(
-                        new Sensor("sensorDoor", SensorType.DOOR),
-                        new Sensor("sensorMotion", SensorType.MOTION),
-                        new Sensor("sensorWindow", SensorType.WINDOW)
-                )
+                Arguments.of(new Sensor("sensorDoor", SensorType.DOOR), true),
+                Arguments.of(new Sensor("sensorMotion", SensorType.MOTION), true),
+                Arguments.of(new Sensor("sensorWindow", SensorType.WINDOW), true)
         );
     }
 }
