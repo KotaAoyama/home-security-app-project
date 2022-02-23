@@ -32,7 +32,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void changeSensorActivated_whenAlertArmed_alarmStatusPending(Sensor sensor, boolean active) {
+    public void changeSensorActivated_whenAlertArmed_pendingAlarm(Sensor sensor, boolean active) {
         securityService.addSensor(sensor);
         Mockito.when(securityRepository.getArmingStatus())
                 .thenReturn(ArmingStatus.ARMED_HOME);
@@ -42,6 +42,20 @@ public class SecurityServiceTest {
         securityService.changeSensorActivationStatus(sensor, active);
 
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.PENDING_ALARM);
+    }
+
+    @ParameterizedTest
+    @MethodSource("differentSensorType")
+    public void changeSensorActivated_whenAlertArmedAndPendingAlarmStatus_alarm(Sensor sensor, boolean active) {
+        securityService.addSensor(sensor);
+        Mockito.when(securityRepository.getArmingStatus())
+                .thenReturn(ArmingStatus.ARMED_HOME);
+        Mockito.when(securityRepository.getAlarmStatus())
+                .thenReturn(AlarmStatus.PENDING_ALARM);
+
+        securityService.changeSensorActivationStatus(sensor, active);
+
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
     }
 
     private static Stream<Arguments> differentSensorType() {
