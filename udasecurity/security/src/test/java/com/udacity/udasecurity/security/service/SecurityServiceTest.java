@@ -13,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.stream.Stream;
 
-
 @ExtendWith(MockitoExtension.class)
 public class SecurityServiceTest {
 
@@ -31,34 +30,34 @@ public class SecurityServiceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("differentSensorType")
+    @MethodSource("differentSensorTypeAndSensorActive")
     public void changeSensorActivated_whenAlertArmed_pendingAlarm(Sensor sensor, boolean active) {
-        securityService.addSensor(sensor);
         Mockito.when(securityRepository.getArmingStatus())
                 .thenReturn(ArmingStatus.ARMED_HOME);
         Mockito.when(securityRepository.getAlarmStatus())
                 .thenReturn(AlarmStatus.NO_ALARM);
 
+        securityService.addSensor(sensor);
         securityService.changeSensorActivationStatus(sensor, active);
 
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.PENDING_ALARM);
     }
 
     @ParameterizedTest
-    @MethodSource("differentSensorType")
+    @MethodSource("differentSensorTypeAndSensorActive")
     public void changeSensorActivated_whenAlertArmedAndPendingAlarmStatus_alarm(Sensor sensor, boolean active) {
-        securityService.addSensor(sensor);
         Mockito.when(securityRepository.getArmingStatus())
-                .thenReturn(ArmingStatus.ARMED_HOME);
+                .thenReturn(ArmingStatus.ARMED_AWAY);
         Mockito.when(securityRepository.getAlarmStatus())
                 .thenReturn(AlarmStatus.PENDING_ALARM);
 
+        securityService.addSensor(sensor);
         securityService.changeSensorActivationStatus(sensor, active);
 
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
     }
 
-    private static Stream<Arguments> differentSensorType() {
+    private static Stream<Arguments> differentSensorTypeAndSensorActive() {
         return Stream.of(
                 Arguments.of(new Sensor("sensorDoor", SensorType.DOOR), true),
                 Arguments.of(new Sensor("sensorMotion", SensorType.MOTION), true),
