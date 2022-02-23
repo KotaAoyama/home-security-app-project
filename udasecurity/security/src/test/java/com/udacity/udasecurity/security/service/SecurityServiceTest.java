@@ -49,8 +49,6 @@ public class SecurityServiceTest {
                                 && securityService.getArmingStatus() == ArmingStatus.ARMED_AWAY
                                 && securityService.getAlarmStatus() == AlarmStatus.PENDING_ALARM)
         );
-
-        Assertions.assertEquals(AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus());
     }
 
     private static Stream<Arguments> differentSensorType() {
