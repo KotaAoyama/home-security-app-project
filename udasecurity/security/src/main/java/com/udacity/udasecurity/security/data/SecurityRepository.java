@@ -6,6 +6,7 @@ import java.util.Set;
  * Interface showing the methods our security repository will need to support
  */
 public interface SecurityRepository {
+    boolean isAnySensorActive();
     void addSensor(Sensor sensor);
     void removeSensor(Sensor sensor);
     void updateSensor(Sensor sensor);

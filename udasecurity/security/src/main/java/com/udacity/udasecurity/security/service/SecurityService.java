@@ -29,6 +29,10 @@ public class SecurityService {
         this.imageService = imageService;
     }
 
+    boolean isAnySensorActive() {
+        return securityRepository.isAnySensorActive();
+    }
+
     /**
      * Sets the current arming status for the system. Changing the arming status
      * may update both the alarm status.

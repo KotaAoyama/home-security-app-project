@@ -45,6 +45,11 @@ public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository
     }
 
     @Override
+    public boolean isAnySensorActive() {
+        return sensors.stream().anyMatch(Sensor::getActive);
+    }
+
+    @Override
     public void addSensor(Sensor sensor) {
         sensors.add(sensor);
         prefs.put(SENSORS, gson.toJson(sensors));
