@@ -98,7 +98,8 @@ public class SecurityService {
      * Internal method for updating the alarm status when a sensor has been deactivated
      */
     private void handleSensorDeactivated() {
-        if (securityRepository.getAlarmStatus() == AlarmStatus.PENDING_ALARM) {
+        if (securityRepository.getAlarmStatus() == AlarmStatus.PENDING_ALARM
+                && !securityRepository.isAnySensorActive()) {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
     }

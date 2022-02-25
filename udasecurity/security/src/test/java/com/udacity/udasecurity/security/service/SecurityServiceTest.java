@@ -31,7 +31,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void changeSensorActivated_whenAlertArmed_pendingAlarm(Sensor sensor) {
+    public void changeSensorActivated_whenAlertArmed_returnPendingAlarm(Sensor sensor) {
         Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
         Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.NO_ALARM);
         securityService.changeSensorActivationStatus(sensor, true);
@@ -41,7 +41,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void changeSensorActivated_whenAlertArmedAndPendingAlarmStatus_alarm(Sensor sensor) {
+    public void changeSensorActivated_whenAlertArmedAndPendingAlarmStatus_returnAlarm(Sensor sensor) {
         Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_AWAY);
         Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
         securityService.changeSensorActivationStatus(sensor, true);
@@ -49,8 +49,15 @@ public class SecurityServiceTest {
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
     }
 
-    @Test
-    public void getAlarmStatus_whenPendingAlarmStatusAndAllSensorsInactive_noAlarm() {
+    @ParameterizedTest
+    @MethodSource("differentSensorType")
+    public void changeSensorInactivated_whenPendingAlarmStatus_returnNoAlarm(Sensor sensor) {
+        Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_AWAY);
+        Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
+        securityService.changeSensorActivationStatus(sensor, true);
+        securityService.changeSensorActivationStatus(sensor, false);
+
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
 
     @ParameterizedTest
@@ -67,9 +74,14 @@ public class SecurityServiceTest {
                         .setAlarmStatus(AlarmStatus.NO_ALARM),
                 () -> Mockito
                         .verify(securityRepository, Mockito.never())
-                        .setAlarmStatus(AlarmStatus.PENDING_ALARM)
-        );
+                        .setAlarmStatus(AlarmStatus.PENDING_ALARM),
+                () -> Mockito
+                        .verify(securityRepository, Mockito.never())
+                        .setAlarmStatus(AlarmStatus.ALARM)
+                );
     }
+
+
 
     private static Stream<Arguments> differentSensorType() {
         return Stream.of(
