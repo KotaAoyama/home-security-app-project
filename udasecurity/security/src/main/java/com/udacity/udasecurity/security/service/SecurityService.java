@@ -43,6 +43,7 @@ public class SecurityService {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
         securityRepository.setArmingStatus(armingStatus);
+        securityRepository.resetAllSensors();
     }
 
     /**

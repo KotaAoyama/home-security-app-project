@@ -149,6 +149,13 @@ public class SecurityServiceTest {
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
 
+    @ParameterizedTest
+    @MethodSource("differentSystemArmedType")
+    public void resetAllSensors_whenSystemArmed_returnDeactivated(ArmingStatus armingStatus) {
+        securityService.setArmingStatus(armingStatus);
+        Mockito.verify(securityRepository).resetAllSensors();
+    }
+
 
     private static Stream<Arguments> differentSensorType() {
         return Stream.of(
@@ -163,6 +170,13 @@ public class SecurityServiceTest {
                 Arguments.of(new BufferedImage(100, 100, 1)),
                 Arguments.of(new BufferedImage(150, 150, 8)),
                 Arguments.of(new BufferedImage(500, 800, 11))
+        );
+    }
+
+    private static Stream<Arguments> differentSystemArmedType() {
+        return Stream.of(
+                Arguments.of(ArmingStatus.ARMED_HOME),
+                Arguments.of(ArmingStatus.ARMED_AWAY)
         );
     }
 }
