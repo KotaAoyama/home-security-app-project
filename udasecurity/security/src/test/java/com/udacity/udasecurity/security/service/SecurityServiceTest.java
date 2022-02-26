@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.awt.image.BufferedImage;
-import java.io.*;
 import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
@@ -101,7 +100,6 @@ public class SecurityServiceTest {
         );
     }
 
-
     @ParameterizedTest
     @MethodSource("differentSensorType")
     public void deactivateSensor_whenSensorAlreadyDeactivatedAndAlarmStatusNoAlarm_noChangeToAlarmStatus(Sensor sensor) {
@@ -137,10 +135,14 @@ public class SecurityServiceTest {
         Mockito.doReturn(false)
                 .when(imageService)
                 .imageContainsCat(Mockito.any(BufferedImage.class), Mockito.anyFloat());
+        Mockito.doReturn(false)
+                .when(securityRepository)
+                .isAnySensorActive();
 
         securityService.processImage(image);
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
+
 
 
     private static Stream<Arguments> differentSensorType() {
