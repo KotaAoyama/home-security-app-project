@@ -81,7 +81,22 @@ public class SecurityServiceTest {
     @ParameterizedTest
     @MethodSource("differentSensorType")
     public void sensorActivated_whenAlarmStatusPendingAlarm_returnAlarmStatusAlarm(Sensor sensor) {
+        Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_AWAY);
+        Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
+        securityService.changeSensorActivationStatus(sensor, true);
+        securityService.changeSensorActivationStatus(sensor, true);
 
+        Assertions.assertAll(
+                () -> Mockito.
+                        verify(securityRepository)
+                        .setAlarmStatus(AlarmStatus.ALARM),
+                () -> Mockito
+                        .verify(securityRepository, Mockito.never())
+                        .setAlarmStatus(AlarmStatus.PENDING_ALARM),
+                () -> Mockito
+                        .verify(securityRepository, Mockito.never())
+                        .setAlarmStatus(AlarmStatus.NO_ALARM)
+        );
     }
 
 
