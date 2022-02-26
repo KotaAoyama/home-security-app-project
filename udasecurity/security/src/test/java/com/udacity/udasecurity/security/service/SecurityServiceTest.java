@@ -1,7 +1,7 @@
 package com.udacity.udasecurity.security.service;
 
+import com.udacity.udasecurity.image.service.FakeImageService;
 import com.udacity.udasecurity.security.data.*;
-import com.udacity.udasecurity.image.service.ImageService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
@@ -19,7 +21,7 @@ public class SecurityServiceTest {
     private SecurityService securityService;
 
     @Mock
-    private ImageService imageService;
+    private FakeImageService imageService;
 
     @Mock
     private PretendDatabaseSecurityRepositoryImpl securityRepository;
@@ -31,7 +33,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void changeSensorActivated_whenAlertArmed_returnPendingAlarm(Sensor sensor) {
+    public void changeSensorActivated_whenAlarmArmed_returnPendingAlarm(Sensor sensor) {
         Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_HOME);
         Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.NO_ALARM);
         securityService.changeSensorActivationStatus(sensor, true);
@@ -41,7 +43,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void changeSensorActivated_whenAlertArmedAndAlarmStatusPendingAlarm_returnAlarm(Sensor sensor) {
+    public void changeSensorActivated_whenAlarmArmedAndAlarmStatusPendingAlarm_returnAlarm(Sensor sensor) {
         Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_AWAY);
         Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
         securityService.changeSensorActivationStatus(sensor, true);
@@ -115,12 +117,34 @@ public class SecurityServiceTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("differentImageType")
+    public void detectCat_whenAlarmArmedHome_returnAlarmStatusAlarm(BufferedImage image) {
+        Mockito.doReturn(true)
+                .when(imageService)
+                .imageContainsCat(Mockito.any(BufferedImage.class), Mockito.anyFloat());
+        Mockito.doReturn(ArmingStatus.ARMED_HOME)
+                .when(securityRepository)
+                .getArmingStatus();
+
+        securityService.processImage(image);
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
+    }
+
 
     private static Stream<Arguments> differentSensorType() {
         return Stream.of(
                 Arguments.of(new Sensor("sensorDoor", SensorType.DOOR)),
                 Arguments.of(new Sensor("sensorMotion", SensorType.MOTION)),
                 Arguments.of(new Sensor("sensorWindow", SensorType.WINDOW))
+        );
+    }
+
+    private static Stream<Arguments> differentImageType() {
+        return Stream.of(
+                Arguments.of(new BufferedImage(100, 100, 1)),
+                Arguments.of(new BufferedImage(150, 150, 8)),
+                Arguments.of(new BufferedImage(500, 800, 11))
         );
     }
 }
