@@ -82,7 +82,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void sensorActivated_whenAlarmStatusPendingAlarm_returnAlarmStatusAlarm(Sensor sensor) {
+    public void activateSensor_whenSensorAlreadyActivatedAndAlarmStatusPendingAlarm_returnAlarmStatusAlarm(Sensor sensor) {
         Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_AWAY);
         Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
         securityService.changeSensorActivationStatus(sensor, true);
@@ -104,7 +104,7 @@ public class SecurityServiceTest {
 
     @ParameterizedTest
     @MethodSource("differentSensorType")
-    public void sensorDeactivated_whenAlarmStatusNoAlarm_noChangeToAlarmStatus(Sensor sensor) {
+    public void deactivateSensor_whenSensorAlreadyDeactivatedAndAlarmStatusNoAlarm_noChangeToAlarmStatus(Sensor sensor) {
         securityService.changeSensorActivationStatus(sensor, false);
 
         Assertions.assertAll(
@@ -129,6 +129,17 @@ public class SecurityServiceTest {
 
         securityService.processImage(image);
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
+    }
+
+    @ParameterizedTest
+    @MethodSource("differentImageType")
+    public void detectNoCat_whenSensorsDeactivated_returnAlarmStatusNoAlarm(BufferedImage image) {
+        Mockito.doReturn(false)
+                .when(imageService)
+                .imageContainsCat(Mockito.any(BufferedImage.class), Mockito.anyFloat());
+
+        securityService.processImage(image);
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
 
 
