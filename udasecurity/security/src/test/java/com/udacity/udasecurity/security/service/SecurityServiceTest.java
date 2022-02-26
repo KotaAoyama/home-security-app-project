@@ -143,6 +143,11 @@ public class SecurityServiceTest {
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
     }
 
+    @Test
+    public void changeAlarmStatus_whenSystemDisarmed_returnAlarmStatusNoAlarm() {
+        securityService.setArmingStatus(ArmingStatus.DISARMED);
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.NO_ALARM);
+    }
 
 
     private static Stream<Arguments> differentSensorType() {
