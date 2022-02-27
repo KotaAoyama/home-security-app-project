@@ -156,6 +156,18 @@ public class SecurityServiceTest {
         Mockito.verify(securityRepository).resetAllSensors();
     }
 
+    @ParameterizedTest
+    @MethodSource("differentImageType")
+    public void alarmArmedHome_whenCatDetected_returnAlarmStatusAlarm(BufferedImage image) {
+        Mockito.doReturn(true)
+                .when(imageService)
+                .imageContainsCat(Mockito.any(BufferedImage.class), Mockito.anyFloat());
+        securityService.setImage(image);
+        securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
+
+        Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
+    }
+
 
     private static Stream<Arguments> differentSensorType() {
         return Stream.of(
