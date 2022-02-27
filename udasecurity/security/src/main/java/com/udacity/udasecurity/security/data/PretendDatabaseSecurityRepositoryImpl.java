@@ -48,10 +48,10 @@ public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository
 
     @Override
     public void resetAllSensors() {
-        for (Sensor sensor : sensors) {
+        sensors.forEach(sensor -> {
             sensor.setActive(false);
             updateSensor(sensor);
-        }
+        });
     }
 
     @Override

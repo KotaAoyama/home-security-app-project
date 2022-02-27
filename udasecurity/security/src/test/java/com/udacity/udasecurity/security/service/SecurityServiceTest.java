@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -150,10 +151,10 @@ public class SecurityServiceTest {
     }
 
     @ParameterizedTest
-    @MethodSource("differentSystemArmedType")
-    public void resetAllSensors_whenSystemArmed_returnDeactivated(ArmingStatus armingStatus) {
+    @EnumSource(value = ArmingStatus.class, names = {"ARMED_HOME", "ARMED_AWAY"})
+    public void resetAllSensors_whenSystemArmed_returnSensorsDeactivated(ArmingStatus armingStatus) {
         securityService.setArmingStatus(armingStatus);
-        Mockito.verify(securityRepository).resetAllSensors();
+        Assertions.assertTrue(securityService.getSensors().stream().noneMatch(Sensor::getActive));
     }
 
     @ParameterizedTest
@@ -182,13 +183,6 @@ public class SecurityServiceTest {
                 Arguments.of(new BufferedImage(100, 100, 1)),
                 Arguments.of(new BufferedImage(150, 150, 8)),
                 Arguments.of(new BufferedImage(500, 800, 11))
-        );
-    }
-
-    private static Stream<Arguments> differentSystemArmedType() {
-        return Stream.of(
-                Arguments.of(ArmingStatus.ARMED_HOME),
-                Arguments.of(ArmingStatus.ARMED_AWAY)
         );
     }
 }
