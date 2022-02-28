@@ -47,14 +47,6 @@ public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository
     }
 
     @Override
-    public void resetAllSensors() {
-        sensors.forEach(sensor -> {
-            sensor.setActive(false);
-            updateSensor(sensor);
-        });
-    }
-
-    @Override
     public boolean isAnySensorActive() {
         return sensors.stream().anyMatch(Sensor::getActive);
     }
