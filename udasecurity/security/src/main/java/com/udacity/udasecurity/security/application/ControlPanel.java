@@ -47,6 +47,5 @@ public class ControlPanel extends JPanel {
         ArmingStatus currentStatus = securityService.getArmingStatus();
         buttonMap.get(currentStatus).setBackground(currentStatus.getColor());
 
-
     }
 }

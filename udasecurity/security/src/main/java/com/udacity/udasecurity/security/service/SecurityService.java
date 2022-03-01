@@ -1,15 +1,16 @@
 package com.udacity.udasecurity.security.service;
 
+import com.udacity.udasecurity.image.service.ImageService;
 import com.udacity.udasecurity.security.application.StatusListener;
 import com.udacity.udasecurity.security.data.AlarmStatus;
 import com.udacity.udasecurity.security.data.ArmingStatus;
 import com.udacity.udasecurity.security.data.SecurityRepository;
 import com.udacity.udasecurity.security.data.Sensor;
-import com.udacity.udasecurity.image.service.ImageService;
 
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service that receives information about changes to the security system. Responsible for
@@ -30,10 +31,6 @@ public class SecurityService {
         this.imageService = imageService;
     }
 
-    boolean isAnySensorActive() {
-        return securityRepository.isAnySensorActive();
-    }
-
     /**
      * Sets the current arming status for the system. Changing the arming status
      * may update both the alarm status.
@@ -43,11 +40,23 @@ public class SecurityService {
         if (armingStatus == ArmingStatus.DISARMED) {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
-        if (armingStatus == ArmingStatus.ARMED_HOME
+        else if (armingStatus == ArmingStatus.ARMED_HOME
                 && imageService.imageContainsCat(currentImage, 50.0f)) {
             setAlarmStatus(AlarmStatus.ALARM);
         }
+        if (armingStatus == ArmingStatus.ARMED_HOME || armingStatus == ArmingStatus.ARMED_AWAY) {
+            resetAllSensors();
+        }
         securityRepository.setArmingStatus(armingStatus);
+        statusListeners.forEach(StatusListener::sensorStatusChanged);
+    }
+
+    private void resetAllSensors() {
+        Set<Sensor> sensors = getSensors()
+                .stream()
+                .peek(sensor -> sensor.setActive(false))
+                .collect(Collectors.toSet());
+        sensors.forEach(sensor -> securityRepository.updateSensor(sensor));
     }
 
     /**
