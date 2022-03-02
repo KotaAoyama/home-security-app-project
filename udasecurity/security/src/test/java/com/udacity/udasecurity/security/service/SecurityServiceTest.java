@@ -164,6 +164,7 @@ public class SecurityServiceTest {
     @EnumSource(value = ArmingStatus.class, names = {"ARMED_HOME", "ARMED_AWAY"})
     public void resetAllSensors_whenSystemArmed_returnSensorsDeactivated(ArmingStatus armingStatus) {
         securityService.setArmingStatus(armingStatus);
+
         Assertions.assertTrue(securityService.getSensors().stream().noneMatch(Sensor::getActive));
     }
 
@@ -178,6 +179,23 @@ public class SecurityServiceTest {
         securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
 
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);
+    }
+
+    @ParameterizedTest
+    @MethodSource("differentSensorType")
+    public void deactivateSensor_whenArmingStatusDisarmed_AlarmStatusNoChange(Sensor sensor) {
+        Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.DISARMED);
+
+        securityService.changeSensorActivationStatus(sensor, true);
+
+        Assertions.assertAll(
+                () -> Mockito
+                        .verify(securityRepository, Mockito.never())
+                        .setAlarmStatus(AlarmStatus.PENDING_ALARM),
+                () -> Mockito
+                        .verify(securityRepository, Mockito.never())
+                        .setAlarmStatus(AlarmStatus.NO_ALARM)
+        );
     }
 
 
