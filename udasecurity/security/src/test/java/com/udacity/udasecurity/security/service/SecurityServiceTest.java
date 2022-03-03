@@ -1,7 +1,10 @@
 package com.udacity.udasecurity.security.service;
 
 import com.udacity.udasecurity.image.service.FakeImageService;
+import com.udacity.udasecurity.security.application.FakePanel;
+import com.udacity.udasecurity.security.application.StatusListener;
 import com.udacity.udasecurity.security.data.*;
+import com.udacity.udasecurity.security.repository.PretendDatabaseSecurityRepositoryImpl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -198,6 +201,54 @@ public class SecurityServiceTest {
         );
     }
 
+    @ParameterizedTest
+    @MethodSource("differentSensorType")
+    public void addSensor(Sensor sensor) {
+        securityService.addSensor(sensor);
+
+        Mockito.verify(securityRepository).addSensor(sensor);
+    }
+
+    @ParameterizedTest
+    @MethodSource("differentSensorType")
+    public void removeSensor(Sensor sensor) {
+        securityService.addSensor(sensor);
+        securityService.removeSensor(sensor);
+
+        Mockito.verify(securityRepository).removeSensor(sensor);
+    }
+
+    @Test
+    public void addStatusListener() {
+        securityService.getStatusListeners().clear();
+
+        StatusListener listener1 = new FakePanel();
+        StatusListener listener2 = new FakePanel();
+        securityService.addStatusListener(listener1);
+        securityService.addStatusListener(listener2);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(securityService.getStatusListeners().size(), 2),
+                () -> Assertions.assertTrue(securityService.getStatusListeners().contains(listener1)),
+                () -> Assertions.assertTrue(securityService.getStatusListeners().contains(listener2))
+        );
+    }
+
+    @Test
+    public void removeStatusListener() {
+        securityService.getStatusListeners().clear();
+
+        StatusListener listener1 = new FakePanel();
+        StatusListener listener2 = new FakePanel();
+        securityService.addStatusListener(listener1);
+        securityService.addStatusListener(listener2);
+        securityService.removeStatusListener(listener1);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(securityService.getStatusListeners().size(), 1),
+                () -> Assertions.assertTrue(securityService.getStatusListeners().contains(listener2))
+        );
+    }
 
     private static Stream<Arguments> differentSensorType() {
         return Stream.of(

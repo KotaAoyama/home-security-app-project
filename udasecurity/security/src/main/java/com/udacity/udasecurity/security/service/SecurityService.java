@@ -4,7 +4,7 @@ import com.udacity.udasecurity.image.service.ImageService;
 import com.udacity.udasecurity.security.application.StatusListener;
 import com.udacity.udasecurity.security.data.AlarmStatus;
 import com.udacity.udasecurity.security.data.ArmingStatus;
-import com.udacity.udasecurity.security.data.SecurityRepository;
+import com.udacity.udasecurity.security.repository.SecurityRepository;
 import com.udacity.udasecurity.security.data.Sensor;
 
 import java.awt.image.BufferedImage;
@@ -29,6 +29,10 @@ public class SecurityService {
     public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
         this.imageService = imageService;
+    }
+
+    public Set<StatusListener> getStatusListeners() {
+        return statusListeners;
     }
 
     /**

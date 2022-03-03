@@ -1,14 +1,15 @@
-package com.udacity.udasecurity.security.data;
+package com.udacity.udasecurity.security.repository;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.udacity.udasecurity.security.data.AlarmStatus;
+import com.udacity.udasecurity.security.data.ArmingStatus;
+import com.udacity.udasecurity.security.data.Sensor;
 
 import java.lang.reflect.Type;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.prefs.Preferences;
-import java.util.stream.Collectors;
 
 /**
  * Fake repository implementation for demo purposes. Stores state information in local

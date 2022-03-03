@@ -1,4 +1,8 @@
-package com.udacity.udasecurity.security.data;
+package com.udacity.udasecurity.security.repository;
+
+import com.udacity.udasecurity.security.data.AlarmStatus;
+import com.udacity.udasecurity.security.data.ArmingStatus;
+import com.udacity.udasecurity.security.data.Sensor;
 
 import java.util.Set;
 
