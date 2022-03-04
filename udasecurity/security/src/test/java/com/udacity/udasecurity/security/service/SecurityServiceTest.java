@@ -206,7 +206,7 @@ public class SecurityServiceTest {
     public void addSensor(Sensor sensor) {
         securityService.addSensor(sensor);
 
-        Mockito.verify(securityRepository).addSensor(sensor);
+        Mockito.verify(securityRepository, Mockito.times(1)).addSensor(sensor);
     }
 
     @ParameterizedTest
@@ -215,11 +215,11 @@ public class SecurityServiceTest {
         securityService.addSensor(sensor);
         securityService.removeSensor(sensor);
 
-        Mockito.verify(securityRepository).removeSensor(sensor);
+        Mockito.verify(securityRepository, Mockito.times(1)).removeSensor(sensor);
     }
 
     @Test
-    public void addStatusListener() {
+    public void addStatusListener_addTwo_returnTwo() {
         securityService.getStatusListeners().clear();
 
         StatusListener listener1 = new FakePanel();
@@ -235,7 +235,7 @@ public class SecurityServiceTest {
     }
 
     @Test
-    public void removeStatusListener() {
+    public void removeStatusListener_addTwoRemoveOne_returnOne() {
         securityService.getStatusListeners().clear();
 
         StatusListener listener1 = new FakePanel();
