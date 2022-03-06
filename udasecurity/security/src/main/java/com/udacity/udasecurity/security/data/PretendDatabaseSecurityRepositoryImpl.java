@@ -1,10 +1,7 @@
-package com.udacity.udasecurity.security.repository;
+package com.udacity.udasecurity.security.data;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.udacity.udasecurity.security.data.AlarmStatus;
-import com.udacity.udasecurity.security.data.ArmingStatus;
-import com.udacity.udasecurity.security.data.Sensor;
 
 import java.lang.reflect.Type;
 import java.util.Set;

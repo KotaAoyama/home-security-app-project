@@ -1,4 +1,4 @@
-package com.udacity.udasecurity.security.repository;
+package com.udacity.udasecurity.security.data;
 
 import com.udacity.udasecurity.security.data.AlarmStatus;
 import com.udacity.udasecurity.security.data.ArmingStatus;

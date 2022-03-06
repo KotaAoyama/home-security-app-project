@@ -4,7 +4,7 @@ import com.udacity.udasecurity.image.service.FakeImageService;
 import com.udacity.udasecurity.security.application.FakePanel;
 import com.udacity.udasecurity.security.application.StatusListener;
 import com.udacity.udasecurity.security.data.*;
-import com.udacity.udasecurity.security.repository.PretendDatabaseSecurityRepositoryImpl;
+import com.udacity.udasecurity.security.data.PretendDatabaseSecurityRepositoryImpl;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
