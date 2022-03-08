@@ -175,10 +175,11 @@ public class SecurityServiceTest {
     @ParameterizedTest
     @MethodSource("differentImageType")
     public void alarmArmedHome_whenCatDetected_returnAlarmStatusAlarm(BufferedImage image) {
-        Mockito.doReturn(true)
-                .when(imageService)
-                .imageContainsCat(Mockito.any(BufferedImage.class), Mockito.anyFloat());
+        Mockito.doReturn(ArmingStatus.ARMED_HOME)
+                .when(securityRepository)
+                .getArmingStatus();
         securityService.setImage(image);
+        securityService.setCatDetected(true);
         securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
 
         Mockito.verify(securityRepository).setAlarmStatus(AlarmStatus.ALARM);

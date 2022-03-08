@@ -10,6 +10,9 @@ public class FakeImageService implements ImageService {
     private final Random r = new Random();
 
     public boolean imageContainsCat(BufferedImage image, float confidenceThreshhold) {
+        if (image == null) {
+            return false;
+        }
         return r.nextBoolean();
     }
 }

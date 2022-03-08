@@ -25,6 +25,7 @@ public class SecurityService {
     private SecurityRepository securityRepository;
     private Set<StatusListener> statusListeners = new HashSet<>();
     private BufferedImage currentImage;
+    private boolean isCatDetected;
 
     public SecurityService(SecurityRepository securityRepository, ImageService imageService) {
         this.securityRepository = securityRepository;
@@ -44,9 +45,8 @@ public class SecurityService {
         if (armingStatus == ArmingStatus.DISARMED) {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
-        else if (armingStatus == ArmingStatus.ARMED_HOME
-                && imageService.imageContainsCat(currentImage, 50.0f)) {
-            setAlarmStatus(AlarmStatus.ALARM);
+        else if (armingStatus == ArmingStatus.ARMED_HOME && isCatDetected) {
+            catDetected(true);
         }
         if (armingStatus == ArmingStatus.ARMED_HOME || armingStatus == ArmingStatus.ARMED_AWAY) {
             resetAllSensors();
@@ -146,7 +146,8 @@ public class SecurityService {
      */
     public void processImage(BufferedImage currentCameraImage) {
         currentImage = currentCameraImage;
-        catDetected(imageService.imageContainsCat(currentCameraImage, 50.0f));
+        isCatDetected = imageService.imageContainsCat(currentCameraImage, 50.0f);
+        catDetected(isCatDetected);
     }
 
     public AlarmStatus getAlarmStatus() {
@@ -171,5 +172,9 @@ public class SecurityService {
 
     public void setImage(BufferedImage image) {
         currentImage = image;
+    }
+
+    public void setCatDetected(boolean cat) {
+        isCatDetected = cat;
     }
 }
