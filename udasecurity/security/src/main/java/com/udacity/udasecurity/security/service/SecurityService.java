@@ -46,7 +46,7 @@ public class SecurityService {
             setAlarmStatus(AlarmStatus.NO_ALARM);
         }
         else if (armingStatus == ArmingStatus.ARMED_HOME && isCatDetected) {
-            catDetected(true);
+            setAlarmStatus(AlarmStatus.ALARM);
         }
         if (armingStatus == ArmingStatus.ARMED_HOME || armingStatus == ArmingStatus.ARMED_AWAY) {
             resetAllSensors();
