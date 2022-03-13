@@ -131,12 +131,14 @@ public class SecurityService {
      */
     public void changeSensorActivationStatus(Sensor sensor, Boolean active) {
         if(!sensor.getActive() && active) {
+            sensor.setActive(true);
+            securityRepository.updateSensor(sensor);
             handleSensorActivated();
         } else if (sensor.getActive() && !active) {
+            sensor.setActive(false);
+            securityRepository.updateSensor(sensor);
             handleSensorDeactivated();
         }
-        sensor.setActive(active);
-        securityRepository.updateSensor(sensor);
     }
 
     /**
