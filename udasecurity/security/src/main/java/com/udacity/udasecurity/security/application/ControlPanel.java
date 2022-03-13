@@ -2,7 +2,6 @@ package com.udacity.udasecurity.security.application;
 
 import com.udacity.udasecurity.security.data.ArmingStatus;
 import com.udacity.udasecurity.security.service.SecurityService;
-import com.udacity.udasecurity.security.service.StyleService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -25,7 +24,7 @@ public class ControlPanel extends JPanel {
         this.securityService = securityService;
 
         JLabel panelLabel = new JLabel("System Control");
-        panelLabel.setFont(StyleService.HEADING_FONT);
+        panelLabel.setFont(SecurityService.HEADING_FONT);
 
         add(panelLabel, "span 3, wrap");
 

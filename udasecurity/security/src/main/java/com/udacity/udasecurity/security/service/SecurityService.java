@@ -7,6 +7,7 @@ import com.udacity.udasecurity.security.data.ArmingStatus;
 import com.udacity.udasecurity.security.data.SecurityRepository;
 import com.udacity.udasecurity.security.data.Sensor;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
  * class you will be writing unit tests for.
  */
 public class SecurityService {
+
+    public static final Font HEADING_FONT = new Font("Sans Serif", Font.BOLD, 24);
 
     private ImageService imageService;
     private SecurityRepository securityRepository;

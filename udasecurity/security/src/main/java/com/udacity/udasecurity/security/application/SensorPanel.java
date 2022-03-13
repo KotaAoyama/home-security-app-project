@@ -4,7 +4,6 @@ import com.udacity.udasecurity.security.data.AlarmStatus;
 import com.udacity.udasecurity.security.data.Sensor;
 import com.udacity.udasecurity.security.data.SensorType;
 import com.udacity.udasecurity.security.service.SecurityService;
-import com.udacity.udasecurity.security.service.StyleService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -33,7 +32,7 @@ public class SensorPanel extends JPanel implements StatusListener {
         this.securityService = securityService;
         securityService.addStatusListener(this);
 
-        panelLabel.setFont(StyleService.HEADING_FONT);
+        panelLabel.setFont(SecurityService.HEADING_FONT);
         addNewSensorButton.addActionListener(e ->
                 addSensor(new Sensor(newSensorNameField.getText(),
                         SensorType.valueOf(newSensorTypeDropdown.getSelectedItem().toString()))));

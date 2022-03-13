@@ -2,7 +2,6 @@ package com.udacity.udasecurity.security.application;
 
 import com.udacity.udasecurity.security.data.AlarmStatus;
 import com.udacity.udasecurity.security.service.SecurityService;
-import com.udacity.udasecurity.security.service.StyleService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.imageio.ImageIO;
@@ -32,7 +31,7 @@ public class ImagePanel extends JPanel implements StatusListener {
         securityService.addStatusListener(this);
 
         cameraHeader = new JLabel("Camera Feed");
-        cameraHeader.setFont(StyleService.HEADING_FONT);
+        cameraHeader.setFont(SecurityService.HEADING_FONT);
 
         cameraLabel = new JLabel();
         cameraLabel.setBackground(Color.WHITE);

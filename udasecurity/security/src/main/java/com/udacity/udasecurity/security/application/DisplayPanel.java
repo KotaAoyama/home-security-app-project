@@ -2,7 +2,6 @@ package com.udacity.udasecurity.security.application;
 
 import com.udacity.udasecurity.security.data.AlarmStatus;
 import com.udacity.udasecurity.security.service.SecurityService;
-import com.udacity.udasecurity.security.service.StyleService;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -25,7 +24,7 @@ public class DisplayPanel extends JPanel implements StatusListener {
         JLabel systemStatusLabel = new JLabel("System Status:");
         currentStatusLabel = new JLabel();
 
-        panelLabel.setFont(StyleService.HEADING_FONT);
+        panelLabel.setFont(SecurityService.HEADING_FONT);
 
         notify(securityService.getAlarmStatus());
 
