@@ -6,4 +6,5 @@ module com.udacity.udasecurity.security {
     requires java.sql;
     requires guava;
     requires miglayout.swing;
+    opens com.udacity.udasecurity.security.data to com.google.gson;
 }
