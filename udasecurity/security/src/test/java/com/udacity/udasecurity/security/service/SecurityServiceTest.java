@@ -93,12 +93,12 @@ public class SecurityServiceTest {
     public void activateSensor_whenSensorAlreadyActivatedAndAlarmStatusPendingAlarm_returnAlarmStatusAlarm(Sensor sensor) {
         Mockito.when(securityRepository.getArmingStatus()).thenReturn(ArmingStatus.ARMED_AWAY);
         Mockito.when(securityRepository.getAlarmStatus()).thenReturn(AlarmStatus.PENDING_ALARM);
-        securityService.changeSensorActivationStatus(sensor, true);
+        sensor.setActive(true);
         securityService.changeSensorActivationStatus(sensor, true);
 
         Assertions.assertAll(
                 () -> Mockito.
-                        verify(securityRepository)
+                        verify(securityRepository, Mockito.times(1))
                         .setAlarmStatus(AlarmStatus.ALARM),
                 () -> Mockito
                         .verify(securityRepository, Mockito.never())
